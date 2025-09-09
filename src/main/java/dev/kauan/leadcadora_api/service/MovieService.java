@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sun.jdi.InvalidTypeException;
+
 import dev.kauan.leadcadora_api.entity.Movie;
 import dev.kauan.leadcadora_api.repository.MovieRepository;
 import dev.kauan.leadcadora_api.request.MovieRequest;
@@ -36,13 +38,15 @@ public class MovieService {
     }
 
     public Movie updateMovie(Long id, MovieRequest request) {
-        if (!movieRepository.existsById(id)) {
-            throw new NoSuchElementException();
-        }
-
-        var updatedMovie = new Movie(request.title(), request.director(), request.releaseYear(),
-                request.synopsis());
-        return movieRepository.save(updatedMovie);
+        return movieRepository.findById(id)
+                .map(existingMovie -> {
+                    existingMovie.setTitle(request.title());
+                    existingMovie.setDirector(request.director());
+                    existingMovie.setReleaseYear(request.releaseYear());
+                    existingMovie.setSynopsis(request.synopsis());
+                    return movieRepository.save(existingMovie);
+                })
+                .orElseThrow(() -> new NoSuchElementException());
     }
 
     public Movie partialUpdateMovie(Long id, Map<String, Object> updates) {
@@ -50,10 +54,29 @@ public class MovieService {
                 .map(movie -> {
                     updates.forEach((key, value) -> {
                         switch (key) {
-                            case "title" -> movie.setTitle((String) value);
-                            case "director" -> movie.setDirector((String) value);
-                            case "releaseYear" -> movie.setReleaseYear((Integer) value);
-                            case "synopsis" -> movie.setSynopsis((String) value);
+                            case "title" -> {
+                                if (value instanceof String string) {
+                                    movie.setTitle(string);
+                                }
+                            }
+                            case "director" -> {
+                                if (value instanceof String string) {
+                                    movie.setDirector(string);
+                                }
+                            }
+                            case "releaseYear" -> {
+                                if (value instanceof Integer integer) {
+                                    movie.setReleaseYear(integer);
+                                }
+                            }
+                            case "synopsis" -> {
+                                if (value instanceof String string) {
+                                    movie.setSynopsis(string);
+                                } else {
+                                    throw new InvalidTypeException();
+                                }
+                            }
+                            default -> throw new IllegalArgumentException();
                         }
                     });
                     return movieRepository.save(movie);
