@@ -1,4 +1,4 @@
-package dev.kauan.leadcadora_api.controllers;
+package dev.kauan.leadcadora_api.controller;
 
 import java.util.List;
 
@@ -12,14 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.kauan.leadcadora_api.models.Movie;
-import dev.kauan.leadcadora_api.services.MovieService;
-
-record CreateMovieRequest(String title, String director, Integer releaseDate, String synopsis) {
-}
-
-record UpdateMovieRequest(String title, String director, Integer releaseDate, String synopsis) {
-}
+import dev.kauan.leadcadora_api.model.Movie;
+import dev.kauan.leadcadora_api.service.MovieService;
+import dev.kauan.leadcadora_api.request.MovieRequest;
 
 @RestController
 @RequestMapping("/movies")
@@ -29,9 +24,10 @@ public class MovieController {
     private MovieService movieService;
 
     @PostMapping
-    public ResponseEntity<Movie> createMovie(@RequestBody CreateMovieRequest request) {
-        this.movieService.createMovie(request);
-        return ResponseEntity.ok(request);
+    public ResponseEntity<Movie> createMovie(@RequestBody MovieRequest request) {
+        var movie = new Movie(null, request.title(), request.director(), request.releaseDate(), request.synopsis());
+        this.movieService.createMovie(movie);
+        return ResponseEntity.ok(movie);
     }
 
     @GetMapping

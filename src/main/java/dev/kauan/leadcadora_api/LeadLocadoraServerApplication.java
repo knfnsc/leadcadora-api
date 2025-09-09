@@ -8,8 +8,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import dev.kauan.leadcadora_api.models.Movie;
-import dev.kauan.leadcadora_api.repositories.MovieRepository;
+import dev.kauan.leadcadora_api.model.Movie;
+import dev.kauan.leadcadora_api.repository.MovieRepository;
 
 @SpringBootApplication
 public class LeadLocadoraServerApplication {
@@ -19,6 +19,7 @@ public class LeadLocadoraServerApplication {
 	}
 
 	@Bean
+	@SuppressWarnings("unused")
 	CommandLineRunner runner(MovieRepository repository) {
 		return _ -> {
 

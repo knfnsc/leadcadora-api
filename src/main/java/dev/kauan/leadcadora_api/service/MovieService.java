@@ -1,4 +1,4 @@
-package dev.kauan.leadcadora_api.services;
+package dev.kauan.leadcadora_api.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import dev.kauan.leadcadora_api.models.Movie;
-import dev.kauan.leadcadora_api.repositories.MovieRepository;
+import dev.kauan.leadcadora_api.model.Movie;
+import dev.kauan.leadcadora_api.repository.MovieRepository;
 
 @Service
 @Transactional

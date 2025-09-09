@@ -1,4 +1,4 @@
-package dev.kauan.leadcadora_api.models;
+package dev.kauan.leadcadora_api.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
