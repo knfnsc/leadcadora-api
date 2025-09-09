@@ -1,4 +1,4 @@
-package dev.kauan.leadcadora_api.model;
+package dev.kauan.leadcadora_api.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,8 +18,7 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(Long id, String title, String director, Integer releaseYear, String synopsis) {
-        this.id = id;
+    public Movie(String title, String director, Integer releaseYear, String synopsis) {
         this.title = title;
         this.director = director;
         this.releaseYear = releaseYear;
@@ -28,10 +27,6 @@ public class Movie {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getTitle() {
