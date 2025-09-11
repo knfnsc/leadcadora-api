@@ -1,7 +1,6 @@
 package dev.kauan.leadcadora_api;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,7 +21,7 @@ public class LeadLocadoraServerApplication {
 	@SuppressWarnings("unused")
 	CommandLineRunner runner(MovieRepository repository) {
 		return _ -> {
-			List<Movie> movies = Arrays.asList(
+			var movies = Arrays.asList(
 					new Movie("Inception", "Christopher Nolan", 2010,
 							"A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O."),
 					new Movie("The Matrix", "The Wachowskis", 1999,

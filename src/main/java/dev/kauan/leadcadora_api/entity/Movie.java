@@ -4,15 +4,21 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @NotNull
     private String title;
+    @NotNull
     private String director;
+    @NotNull
     private Integer releaseYear;
+    @NotNull
     private String synopsis;
 
     public Movie() {

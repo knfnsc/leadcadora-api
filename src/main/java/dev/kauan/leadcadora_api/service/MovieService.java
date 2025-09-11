@@ -1,15 +1,12 @@
 package dev.kauan.leadcadora_api.service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.sun.jdi.InvalidTypeException;
 
 import dev.kauan.leadcadora_api.entity.Movie;
 import dev.kauan.leadcadora_api.repository.MovieRepository;
@@ -45,41 +42,6 @@ public class MovieService {
                     existingMovie.setReleaseYear(request.releaseYear());
                     existingMovie.setSynopsis(request.synopsis());
                     return movieRepository.save(existingMovie);
-                })
-                .orElseThrow(() -> new NoSuchElementException());
-    }
-
-    public Movie partialUpdateMovie(Long id, Map<String, Object> updates) {
-        return movieRepository.findById(id)
-                .map(movie -> {
-                    updates.forEach((key, value) -> {
-                        switch (key) {
-                            case "title" -> {
-                                if (value instanceof String string) {
-                                    movie.setTitle(string);
-                                }
-                            }
-                            case "director" -> {
-                                if (value instanceof String string) {
-                                    movie.setDirector(string);
-                                }
-                            }
-                            case "releaseYear" -> {
-                                if (value instanceof Integer integer) {
-                                    movie.setReleaseYear(integer);
-                                }
-                            }
-                            case "synopsis" -> {
-                                if (value instanceof String string) {
-                                    movie.setSynopsis(string);
-                                } else {
-                                    throw new InvalidTypeException();
-                                }
-                            }
-                            default -> throw new IllegalArgumentException();
-                        }
-                    });
-                    return movieRepository.save(movie);
                 })
                 .orElseThrow(() -> new NoSuchElementException());
     }
