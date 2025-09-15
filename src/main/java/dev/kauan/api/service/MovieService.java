@@ -1,16 +1,16 @@
-package dev.kauan.leadcadora_api.service;
+package dev.kauan.api.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import dev.kauan.leadcadora_api.entity.Movie;
-import dev.kauan.leadcadora_api.repository.MovieRepository;
-import dev.kauan.leadcadora_api.request.MovieRequest;
+import dev.kauan.api.model.Movie;
+import dev.kauan.api.repository.MovieRepository;
 
 @Service
 @Transactional
@@ -19,8 +19,8 @@ public class MovieService {
     @Autowired
     private MovieRepository movieRepository;
 
-    public Movie createMovie(MovieRequest request) {
-        var newMovie = new Movie(request.title(), request.director(), request.releaseYear(), request.synopsis());
+    public Movie createMovie(Movie movie) {
+        var newMovie = new Movie(movie.getTitle(), movie.getDirector(), movie.getReleaseYear(), movie.getSynopsis());
         return movieRepository.save(newMovie);
     }
 
@@ -30,23 +30,22 @@ public class MovieService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Movie> getMovieFromId(Long id) {
+    public Optional<Movie> getMovieFromId(UUID id) {
         return movieRepository.findById(id);
     }
 
-    public Movie updateMovie(Long id, MovieRequest request) {
+    public Optional<Movie> updateMovie(UUID id, Movie movie) {
         return movieRepository.findById(id)
                 .map(existingMovie -> {
-                    existingMovie.setTitle(request.title());
-                    existingMovie.setDirector(request.director());
-                    existingMovie.setReleaseYear(request.releaseYear());
-                    existingMovie.setSynopsis(request.synopsis());
+                    existingMovie.setTitle(movie.getTitle());
+                    existingMovie.setDirector(movie.getDirector());
+                    existingMovie.setReleaseYear(movie.getReleaseYear());
+                    existingMovie.setSynopsis(movie.getSynopsis());
                     return movieRepository.save(existingMovie);
-                })
-                .orElseThrow(() -> new NoSuchElementException());
+                });
     }
 
-    public void deleteMovieById(Long id) {
+    public void deleteMovieById(UUID id) {
         if (!movieRepository.existsById(id)) {
             throw new NoSuchElementException();
         }

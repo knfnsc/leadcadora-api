@@ -1,4 +1,6 @@
-package dev.kauan.leadcadora_api.entity;
+package dev.kauan.api.model;
+
+import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,8 +11,8 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @NotNull
     private String title;
@@ -31,7 +33,7 @@ public class Movie {
         this.synopsis = synopsis;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

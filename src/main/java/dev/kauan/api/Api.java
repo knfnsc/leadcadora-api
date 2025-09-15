@@ -1,25 +1,24 @@
-package dev.kauan.leadcadora_api;
+package dev.kauan.api;
 
 import java.util.Arrays;
 
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import dev.kauan.leadcadora_api.entity.Movie;
-import dev.kauan.leadcadora_api.repository.MovieRepository;
+import dev.kauan.api.model.Movie;
+import dev.kauan.api.repository.MovieRepository;
 
 @SpringBootApplication
-public class LeadLocadoraServerApplication {
+public class Api {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LeadLocadoraServerApplication.class, args);
+		SpringApplication.run(Api.class, args);
 	}
 
 	@Bean
-	@SuppressWarnings("unused")
-	CommandLineRunner runner(MovieRepository repository) {
+	ApplicationRunner runner(MovieRepository repository) {
 		return _ -> {
 			var movies = Arrays.asList(
 					new Movie("Inception", "Christopher Nolan", 2010,
