@@ -2,7 +2,6 @@ package dev.kauan.api.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,8 @@ public class MovieService {
     private MovieRepository movieRepository;
 
     public Movie createMovie(Movie movie) {
-        var newMovie = new Movie(movie.getTitle(), movie.getDirector(), movie.getReleaseYear(), movie.getSynopsis());
+        var newMovie = new Movie(movie.getTitle(), movie.getDirector(), movie.getReleaseYear(), movie.getSynopsis(),
+                movie.getPosterURL());
         return movieRepository.save(newMovie);
     }
 
@@ -29,11 +29,11 @@ public class MovieService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Movie> getMovieFromId(UUID id) {
+    public Optional<Movie> getMovieFromId(Long id) {
         return movieRepository.findById(id);
     }
 
-    public Optional<Movie> updateMovie(UUID id, Movie movie) {
+    public Optional<Movie> updateMovie(Long id, Movie movie) {
         return movieRepository.findById(id)
                 .map(existingMovie -> {
                     existingMovie.setTitle(movie.getTitle());
@@ -44,7 +44,7 @@ public class MovieService {
                 });
     }
 
-    public Boolean deleteMovieById(UUID id) {
+    public Boolean deleteMovieById(Long id) {
         if (movieRepository.existsById(id)) {
             movieRepository.deleteById(id);
             return true;

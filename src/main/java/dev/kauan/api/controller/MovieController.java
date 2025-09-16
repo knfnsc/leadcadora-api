@@ -1,7 +1,7 @@
 package dev.kauan.api.controller;
 
 import java.util.List;
-import java.util.UUID;
+import java.lang.Long;
 import java.util.stream.Collectors;
 
 import jakarta.validation.Valid;
@@ -36,7 +36,7 @@ public class MovieController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MovieResponse> getMovieById(@PathVariable UUID id) {
+    public ResponseEntity<MovieResponse> getMovieById(@PathVariable Long id) {
         return movieService.getMovieFromId(id)
                 .map(movieMapper::entityToResponse)
                 .map(ResponseEntity::ok)
@@ -52,7 +52,7 @@ public class MovieController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MovieResponse> updateMovie(@PathVariable UUID id, @Valid @RequestBody MovieRequest request) {
+    public ResponseEntity<MovieResponse> updateMovie(@PathVariable Long id, @Valid @RequestBody MovieRequest request) {
         return movieService.updateMovie(id, movieMapper.requestToEntity(request))
                 .map(movieMapper::entityToResponse)
                 .map(ResponseEntity::ok)
@@ -60,7 +60,7 @@ public class MovieController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMovie(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteMovie(@PathVariable Long id) {
         return movieService.deleteMovieById(id)
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();
