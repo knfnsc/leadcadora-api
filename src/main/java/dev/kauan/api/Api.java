@@ -7,7 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import dev.kauan.api.model.Movie;
+import dev.kauan.api.domain.Movie;
 import dev.kauan.api.repository.MovieRepository;
 
 @SpringBootApplication

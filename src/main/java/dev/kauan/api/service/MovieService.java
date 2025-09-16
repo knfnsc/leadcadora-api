@@ -1,7 +1,6 @@
 package dev.kauan.api.service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -9,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import dev.kauan.api.model.Movie;
+import dev.kauan.api.domain.Movie;
 import dev.kauan.api.repository.MovieRepository;
 
 @Service
@@ -45,11 +44,11 @@ public class MovieService {
                 });
     }
 
-    public void deleteMovieById(UUID id) {
-        if (!movieRepository.existsById(id)) {
-            throw new NoSuchElementException();
+    public Boolean deleteMovieById(UUID id) {
+        if (movieRepository.existsById(id)) {
+            movieRepository.deleteById(id);
+            return true;
         }
-
-        movieRepository.deleteById(id);
+        return false;
     }
 }

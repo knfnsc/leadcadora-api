@@ -1,4 +1,4 @@
-package dev.kauan.api.model;
+package dev.kauan.api.domain;
 
 import java.util.UUID;
 
@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Movie {
@@ -14,13 +13,9 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull
     private String title;
-    @NotNull
     private String director;
-    @NotNull
     private Integer releaseYear;
-    @NotNull
     private String synopsis;
 
     public Movie() {

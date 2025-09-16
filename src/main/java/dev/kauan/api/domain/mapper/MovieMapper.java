@@ -1,10 +1,10 @@
-package dev.kauan.api.model.mapper;
+package dev.kauan.api.domain.mapper;
 
 import org.mapstruct.Mapper;
 
-import dev.kauan.api.dto.MovieRequest;
-import dev.kauan.api.dto.MovieResponse;
-import dev.kauan.api.model.Movie;
+import dev.kauan.api.domain.Movie;
+import dev.kauan.api.domain.dto.MovieRequest;
+import dev.kauan.api.domain.dto.MovieResponse;
 
 @Mapper(componentModel = "spring")
 public interface MovieMapper {

@@ -1,7 +1,6 @@
 package dev.kauan.api.controller;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -12,9 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import dev.kauan.api.dto.MovieRequest;
-import dev.kauan.api.dto.MovieResponse;
-import dev.kauan.api.model.mapper.MovieMapper;
+import dev.kauan.api.domain.dto.MovieRequest;
+import dev.kauan.api.domain.dto.MovieResponse;
+import dev.kauan.api.domain.mapper.MovieMapper;
 import dev.kauan.api.service.MovieService;
 
 @RestController
@@ -29,10 +28,11 @@ public class MovieController {
 
     @GetMapping
     public ResponseEntity<List<MovieResponse>> getMovies() {
-        return ResponseEntity.ok(movieService.getAllMovies()
-                .stream()
-                .map(movieMapper::entityToResponse)
-                .collect(Collectors.toList()));
+        return ResponseEntity.ok(
+                movieService.getAllMovies()
+                        .stream()
+                        .map(movieMapper::entityToResponse)
+                        .collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
@@ -45,8 +45,10 @@ public class MovieController {
 
     @PostMapping
     public ResponseEntity<MovieResponse> createMovie(@Valid @RequestBody MovieRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(movieMapper.entityToResponse(movieService.createMovie(movieMapper.requestToEntity(request))));
+        var createdMovie = movieService.createMovie(movieMapper.requestToEntity(request));
+        var response = movieMapper.entityToResponse(createdMovie);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{id}")
@@ -59,11 +61,8 @@ public class MovieController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMovie(@PathVariable UUID id) {
-        try {
-            movieService.deleteMovieById(id);
-            return ResponseEntity.noContent().build();
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return movieService.deleteMovieById(id)
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
     }
 }

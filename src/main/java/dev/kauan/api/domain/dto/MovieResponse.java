@@ -1,4 +1,4 @@
-package dev.kauan.api.dto;
+package dev.kauan.api.domain.dto;
 
 import java.util.UUID;
 
