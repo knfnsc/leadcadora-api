@@ -18,6 +18,7 @@ import dev.kauan.api.service.MovieService;
 
 @RestController
 @RequestMapping("/movies")
+@CrossOrigin(origins = "http://localhost:4200")
 public class MovieController {
 
     @Autowired

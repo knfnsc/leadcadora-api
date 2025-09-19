@@ -8,7 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import dev.kauan.api.domain.Movie;
+import dev.kauan.api.domain.User;
 import dev.kauan.api.repository.MovieRepository;
+import dev.kauan.api.repository.UserRepository;
 
 @SpringBootApplication
 public class Api {
@@ -18,8 +20,13 @@ public class Api {
 	}
 
 	@Bean
-	ApplicationRunner runner(MovieRepository repository) {
+	ApplicationRunner runner(UserRepository userRepository, MovieRepository movieRepository) {
 		return _ -> {
+			var users = Arrays.asList(new User("kauan123", "senha123", true, null),
+					new User("cara1234", "senha123", false, Long.valueOf(3)));
+
+			userRepository.saveAll(users);
+
 			var movies = Arrays.asList(
 					new Movie("The Matrix", "The Wachowskis", 1999,
 							"A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
@@ -31,7 +38,7 @@ public class Api {
 							"The lives of two mob hitmen, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
 							"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.explicit.bing.net%2Fth%2Fid%2FOIP.lJ1SALoAkquFWQ_RZcLteQHaLH%3Fpid%3DApi&f=1&ipt=b06e3ea74f8889a930f51498d5119b539fde4e020ce6c902324728a09c1f7ad1&ipo=images"));
 
-			repository.saveAll(movies);
+			movieRepository.saveAll(movies);
 		};
 	}
 
